@@ -3,6 +3,7 @@ package anaconda
 import (
 	"log"
 	"os"
+	"io"
 )
 
 // The Logger interface provides optional logging ability for the streaming API.
@@ -39,6 +40,10 @@ type Logger interface {
 // using the log package from the standard library.
 func (c *TwitterApi) SetLogger(l Logger) {
 	c.Log = l
+}
+
+func (c *TwitterApi) SetOutput(w io.Writer) {
+	BasicLogger = &basicLogger{log: log.New(w, log.Prefix(), log.LstdFlags)}
 }
 
 type silentLogger struct {
